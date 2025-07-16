@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="game.css">
+
+</head>
+<body>
+
+  <h1>Stone -  Paper -  Scissors</h1>
+
+  <div class="choices">
+    <div class="choiced" id="comp-Stone">🪨</div>
+    <div class="choiced" id="comp-paper">📄</div>
+    <div class="choiced" id="comp-scissors">✂</div>
+  </div>
+
+  <div class="choices">
+    <div class="choice" id="user-Stone" onclick="play('Stone')">🪨</div>
+    <div class="choice" id="user-paper" onclick="play('paper')">📄</div>
+    <div class="choice" id="user-scissors" onclick="play('scissors')">✂</div>
+  </div>
+
+  <div id="result">RESULT</div>
+  <div id="score">You: 0 | Computer: 0</div>
+
+  <script>
+    
+    const scoreEl = document.getElementById('score');
+
+    let userScore = 0;
+    let compScore = 0;
+
+    const choices = ['Stone', 'paper', 'scissors'];
+   
+
+    function play(userChoice) {
+      const compChoice = choices[Math.floor(Math.random() * 3)];
+
+      choices.forEach(choice => {
+        document.getElementById(`user-${choice}`).classList.remove('selected');
+        document.getElementById(`comp-${choice}`).classList.remove('selected');
+      });
+
+      
+      document.getElementById(`user-${userChoice}`).classList.add('selected');
+      document.getElementById(`comp-${compChoice}`).classList.add('selected');
+
+     
+      let result = '';
+      if (userChoice === compChoice) {
+        result = "It's a draw!";
+      } else if (
+        (userChoice === 'Stone' && compChoice === 'scissors') |
+        (userChoice === 'paper' && compChoice === 'Stone') ||
+        (userChoice === 'scissors' && compChoice === 'paper')
+      ) {
+        result = ' You win!';
+        userScore++;
+      } else {
+        result = ' You lose!';
+        compScore++;
+      }
+
+   
+      scoreEl.innerHTML = `You: ${userScore} | Computer: ${compScore}`;
+    }
+  </script>
+
+</body>
+</html>
+
