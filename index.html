@@ -1,74 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock Paper Scissors</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <h1>Stone -  Paper -  Scissors</h1>
+  <h1>🪨 Stone - 📄 Paper - ✂️ Scissors</h1>
 
+  <!-- Computer choices -->
   <div class="choices">
-    <div class="choiced" id="comp-Stone">🪨</div>
+    <div class="choiced" id="comp-stone">🪨</div>
     <div class="choiced" id="comp-paper">📄</div>
-    <div class="choiced" id="comp-scissors">✂</div>
+    <div class="choiced" id="comp-scissors">✂️</div>
   </div>
 
+  <!-- User choices -->
   <div class="choices">
-    <div class="choice" id="user-Stone" onclick="play('Stone')">🪨</div>
+    <div class="choice" id="user-stone" onclick="play('stone')">🪨</div>
     <div class="choice" id="user-paper" onclick="play('paper')">📄</div>
-    <div class="choice" id="user-scissors" onclick="play('scissors')">✂</div>
+    <div class="choice" id="user-scissors" onclick="play('scissors')">✂️</div>
   </div>
 
+  <div id="timer">Choose your move!</div>
   <div id="result">RESULT</div>
   <div id="score">You: 0 | Computer: 0</div>
 
   <script>
-    
     const scoreEl = document.getElementById('score');
+    const resultEl = document.getElementById('result');
+    const timerEl = document.getElementById('timer');
 
     let userScore = 0;
     let compScore = 0;
 
-    const choices = ['Stone', 'paper', 'scissors'];
-   
+    const choices = ['stone', 'paper', 'scissors'];
 
     function play(userChoice) {
       const compChoice = choices[Math.floor(Math.random() * 3)];
 
+      // Reset visuals
       choices.forEach(choice => {
         document.getElementById(`user-${choice}`).classList.remove('selected');
         document.getElementById(`comp-${choice}`).classList.remove('selected');
       });
 
-      
+      // Highlight selections
       document.getElementById(`user-${userChoice}`).classList.add('selected');
       document.getElementById(`comp-${compChoice}`).classList.add('selected');
 
-     
-      let result = '';
-      if (userChoice === compChoice) {
-        result = "It's a draw!";
-      } else if (
-        (userChoice === 'Stone' && compChoice === 'scissors') |
-        (userChoice === 'paper' && compChoice === 'Stone') ||
-        (userChoice === 'scissors' && compChoice === 'paper')
-      ) {
-        result = ' You win!';
-        userScore++;
-      } else {
-        result = ' You lose!';
-        compScore++;
-      }
+      // Countdown before result
+      let countdown = 3;
+      timerEl.textContent = `Timer: ${countdown}`;
+      resultEl.textContent = "";
 
-   
-      scoreEl.innerHTML = `You: ${userScore} | Computer: ${compScore}`;
+      const countdownInterval = setInterval(() => {
+        countdown--;
+        timerEl.textContent = countdown > 0 ? `Timer: ${countdown}` : "Go!";
+        if (countdown <= 0) {
+          clearInterval(countdownInterval);
+
+          // Decide result
+          let result = '';
+          if (userChoice === compChoice) {
+            result = "It's a draw!";
+          } else if (
+            (userChoice === 'stone' && compChoice === 'scissors') ||
+            (userChoice === 'paper' && compChoice === 'stone') ||
+            (userChoice === 'scissors' && compChoice === 'paper')
+          ) {
+            result = 'You win!';
+            userScore++;
+          } else {
+            result = 'You lose!';
+            compScore++;
+          }
+
+          // Show result
+          resultEl.textContent = result;
+          scoreEl.innerHTML = `You: ${userScore} | Computer: ${compScore}`;
+
+          // Clear selection and timer after 2 seconds
+          setTimeout(() => {
+            resultEl.textContent = 'RESULT';
+            timerEl.textContent = 'Choose your move!';
+            choices.forEach(choice => {
+              document.getElementById(`user-${choice}`).classList.remove('selected');
+              document.getElementById(`comp-${choice}`).classList.remove('selected');
+            });
+          }, 2000);
+        }
+      }, 1000);
     }
   </script>
 
 </body>
 </html>
-
