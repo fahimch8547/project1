@@ -8,16 +8,16 @@
 </head>
 <body>
 
-  <h1>🪨 Stone - 📄 Paper - ✂️ Scissors</h1>
+  <h1> Stone -  Paper -  Scissors</h1>
 
-  <!-- Computer choices -->
+  
   <div class="choices">
     <div class="choiced" id="comp-stone">🪨</div>
     <div class="choiced" id="comp-paper">📄</div>
     <div class="choiced" id="comp-scissors">✂️</div>
   </div>
 
-  <!-- User choices -->
+  
   <div class="choices">
     <div class="choice" id="user-stone" onclick="play('stone')">🪨</div>
     <div class="choice" id="user-paper" onclick="play('paper')">📄</div>
@@ -41,17 +41,17 @@
     function play(userChoice) {
       const compChoice = choices[Math.floor(Math.random() * 3)];
 
-      // Reset visuals
+      
       choices.forEach(choice => {
         document.getElementById(`user-${choice}`).classList.remove('selected');
         document.getElementById(`comp-${choice}`).classList.remove('selected');
       });
 
-      // Highlight selections
+      
       document.getElementById(`user-${userChoice}`).classList.add('selected');
       document.getElementById(`comp-${compChoice}`).classList.add('selected');
 
-      // Countdown before result
+      
       let countdown = 3;
       timerEl.textContent = `Timer: ${countdown}`;
       resultEl.textContent = "";
@@ -62,7 +62,7 @@
         if (countdown <= 0) {
           clearInterval(countdownInterval);
 
-          // Decide result
+          
           let result = '';
           if (userChoice === compChoice) {
             result = "It's a draw!";
@@ -78,11 +78,11 @@
             compScore++;
           }
 
-          // Show result
+          
           resultEl.textContent = result;
           scoreEl.innerHTML = `You: ${userScore} | Computer: ${compScore}`;
 
-          // Clear selection and timer after 2 seconds
+          
           setTimeout(() => {
             resultEl.textContent = 'RESULT';
             timerEl.textContent = 'Choose your move!';
